@@ -1,6 +1,10 @@
 {
   "name": "shortly-express",
   "version": "0.0.1",
+  "engine": {
+    "node": "0.12.7",
+    "npm": "2.11.3"
+  },
   "description": "shortly using express",
   "main": "index.js",
   "repository": "",
@@ -10,7 +14,6 @@
     "start": "node index.js"
   },
 
-  "engine": "node 0.12.7",
 
   "dependencies": {
     "knex": "~0.5.7",
