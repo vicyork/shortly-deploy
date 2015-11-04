@@ -1,0 +1,22 @@
+.DS_Store
+.AppleDouble
+.LSOverride
+azure.err
+iisnode.yml
+
+# Icon must ends with two \r.
+Icon
+
+# Floobits
+.floo
+.floobit
+.flooignore
+
+# Build files
+public/dist/
+
+# Node modules
+node_modules/
+
+# WebStorm files
+.idea/
