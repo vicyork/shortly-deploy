@@ -60,7 +60,7 @@ module.exports = function(grunt) {
     shell: {
       prodServer: {
       }
-    },
+    }
   });
 
   grunt.loadNpmTasks('grunt-contrib-uglify');
