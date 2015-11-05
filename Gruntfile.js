@@ -1,8 +1,15 @@
-module.exports = function(grunt) {
+module.exports = function(grunt){
 
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
     concat: {
+      options: {
+        separator: ';'
+      },
+      dist: {
+        src: ['public/client/app.js', 'public/client/createLinkView.js', 'public/client/link.js', 'public/client/links.js', 'public/client/linksView.js', 'public/client/linkView.js', 'public/client/router.js'],
+        dest: 'public/dist/built.js'
+      }
     },
 
     mochaTest: {
@@ -20,12 +27,19 @@ module.exports = function(grunt) {
       }
     },
 
+    // load ugify script here
     uglify: {
+      my_target: {
+        files: {
+          'public/dist/uglifiedBuilt.js': ['public/dist/built.js']
+        }
+      }
     },
 
     jshint: {
       files: [
         // Add filespec list here
+        'public/client/*.js'
       ],
       options: {
         force: 'true',
@@ -38,13 +52,22 @@ module.exports = function(grunt) {
     },
 
     cssmin: {
+      target: {
+        files: [{
+          expand: true,
+          cwd: 'public',
+          src: ['*.css', '!*.min.css'],
+          dest: 'public/dist',
+          ext: '.min.css'
+        }]
+      }
     },
 
     watch: {
       scripts: {
         files: [
           'public/client/**/*.js',
-          'public/lib/**/*.js',
+          'public/lib/**/*.js'
         ],
         tasks: [
           'concat',
@@ -59,6 +82,7 @@ module.exports = function(grunt) {
 
     shell: {
       prodServer: {
+        command: 'git push heroku master'
       }
     }
   });
@@ -72,17 +96,18 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-shell');
   grunt.loadNpmTasks('grunt-nodemon');
 
-  grunt.registerTask('server-dev', function (target) {
-    // Running nodejs in a different process and displaying output on the main console
+  grunt.registerTask('server-dev', function(target){
+    // Running nodejs in a different process and displaying output on the
+    // main console
     var nodemon = grunt.util.spawn({
-         cmd: 'grunt',
-         grunt: true,
-         args: 'nodemon'
+      cmd: 'grunt',
+      grunt: true,
+      args: 'nodemon'
     });
     nodemon.stdout.pipe(process.stdout);
     nodemon.stderr.pipe(process.stderr);
 
-    grunt.task.run([ 'watch' ]);
+    grunt.task.run(['watch']);
   });
 
   ////////////////////////////////////////////////////
@@ -90,23 +115,30 @@ module.exports = function(grunt) {
   ////////////////////////////////////////////////////
 
   grunt.registerTask('test', [
+    'jshint',
     'mochaTest'
   ]);
 
   grunt.registerTask('build', [
+    'concat',
+    'uglify',
+    'cssmin'
   ]);
 
-  grunt.registerTask('upload', function(n) {
-    if(grunt.option('prod')) {
+  grunt.registerTask('upload', function(n){
+    if(grunt.option('prod')){
       // add your production server task here
+      grunt.task.run(['shell']);
     } else {
-      grunt.task.run([ 'server-dev' ]);
+      grunt.task.run(['server-dev']);
     }
   });
 
   grunt.registerTask('deploy', [
     // add your deploy tasks here
+    grunt.task.run(['test']),
+    grunt.task.run(['build']),
+    grunt.task.run(['upload'])
   ]);
-
 
 };
