@@ -1,7 +1,21 @@
-var Bookshelf = require('bookshelf');
-var path = require('path');
+var mongoose = require('mongoose');
+mongoose.connect('mongodb://localhost/shortly');
 
-var db = Bookshelf.initialize({
+var db = mongoose.connection;
+
+db.on('error', console.error.bind(console, 'error connecting!!'));
+db.once('open', function() {
+  console.log('Mongodb connection is now open');
+  // schema here!
+});
+
+module.exports = db;
+
+//var Bookshelf = require('bookshelf');
+//var path = require('path');
+
+
+/*var db = Bookshelf.initialize({
   client: 'sqlite3',
   connection: {
     host: '127.0.0.1',
@@ -11,9 +25,9 @@ var db = Bookshelf.initialize({
     charset: 'utf8',
     filename: path.join(__dirname, '../db/shortly.sqlite')
   }
-});
+});*/
 
-db.knex.schema.hasTable('urls').then(function(exists) {
+/*db.knex.schema.hasTable('urls').then(function(exists) {
   if (!exists) {
     db.knex.schema.createTable('urls', function (link) {
       link.increments('id').primary();
@@ -27,9 +41,9 @@ db.knex.schema.hasTable('urls').then(function(exists) {
       console.log('Created Table', table);
     });
   }
-});
+});*/
 
-db.knex.schema.hasTable('users').then(function(exists) {
+/*db.knex.schema.hasTable('users').then(function(exists) {
   if (!exists) {
     db.knex.schema.createTable('users', function (user) {
       user.increments('id').primary();
@@ -40,6 +54,6 @@ db.knex.schema.hasTable('users').then(function(exists) {
       console.log('Created Table', table);
     });
   }
-});
+});*/
 
-module.exports = db;
+

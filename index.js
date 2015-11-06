@@ -17,10 +17,7 @@ console.log('Server now listening on port ' + port);
 //  res.writeHead(200, {'Content-Type': 'text/plain'});
 //  res.end('Hello World\n');
 //}).listen(process.env.PORT, process.env.IP);
-
-
 /* Google searching for solution to auto set the port */
-
 //var cool = require('cool-ascii-faces');
 //var express = require('express');
 //var app = express();
