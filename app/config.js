@@ -1,5 +1,10 @@
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/shortly');
+var path = require('path');
+
+var dbPath = process.env.MONGOLAB_URI || 'mongodb://localhost/shortly-deploy';
+
+mongoose.connect(dbPath);
+//mongoose.connect('mongodb://localhost/shortly');
 
 var db = mongoose.connection;
 
